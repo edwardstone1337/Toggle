@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle App with Firebase</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Toggle Switch (Real-Time)</h1>
+    <div>
+        <label for="pairCode">Enter or Generate Pair Code:</label>
+        <input type="text" id="pairCode" placeholder="e.g., ABC123">
+        <button id="generateCode">Generate Code</button>
+        <button id="joinPair">Join Pair</button>
+    </div>
+
+    <div id="toggleContainer" style="display:none;">
+        <h2>Your Toggle</h2>
+        <label class="switch">
+            <input type="checkbox" id="userToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+        
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmOUcBPzDOyLWFqg9Mr7ZuOJb84yNE-nI",
+            authDomain: "toggle-a7f26.firebaseapp.com",
+            databaseURL: "https://toggle-a7f26-default-rtdb.firebaseio.com",
+            projectId: "toggle-a7f26",
+            storageBucket: "toggle-a7f26.appspot.com",
+            messagingSenderId: "865398263264",
+            appId: "1:865398263264:web:cc77ff9aa7b37bb59a6f85",
+            measurementId: "G-22CKZ3X4F4"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // DOM Elements
+        const pairCodeInput = document.getElementById("pairCode");
+        const toggleContainer = document.getElementById("toggleContainer");
+        const userToggle = document.getElementById("userToggle");
+
+        // Generate a random pairing code
+        document.getElementById("generateCode").addEventListener("click", () => {
+            const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+            pairCodeInput.value = code;
+        });
+
+        // Join a pair
+        document.getElementById("joinPair").addEventListener("click", () => {
+            const pairCode = pairCodeInput.value;
+            if (pairCode) {
+                joinPair(pairCode);
+            }
+        });
+
+        // Function to join a pair and sync toggle state
+        function joinPair(pairCode) {
+            const pairRef = ref(database, `pairs/${pairCode}`);
+            toggleContainer.style.display = 'block';
+
+            // Sync the toggle state from Firebase
+            onValue(pairRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    userToggle.checked = data.state === 'on';
+                }
+            });
+
+            // Update Firebase when the local toggle changes
+            userToggle.addEventListener("change", () => {
+                const newState = userToggle.checked ? 'on' : 'off';
+                set(pairRef, { state: newState });
+            });
+        }
+    </script>
+</body>
+</html>
