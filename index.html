@@ -21,9 +21,21 @@
             <input type="checkbox" id="userToggle">
             <span class="slider round"></span>
         </label>
+
+        <!-- User-defined labels for On/Off states -->
+        <div>
+            <label for="labelOn">Label for "On" State:</label>
+            <input type="text" id="labelOn" placeholder="Car Space Free">
+        </div>
+        <div>
+            <label for="labelOff">Label for "Off" State:</label>
+            <input type="text" id="labelOff" placeholder="Car Space Occupied">
+        </div>
+
+        <!-- Display the current state label -->
+        <h3>Current Status: <span id="stateLabel">N/A</span></h3>
     </div>
 
-    <!-- Link to your external JavaScript file -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
