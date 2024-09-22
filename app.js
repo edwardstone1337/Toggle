@@ -94,12 +94,14 @@ sharedToggle.addEventListener('change', updateToggleState);
 // Anonymous Authentication
 auth.signInAnonymously().then((user) => {
   currentUser = user.user;
+
   // Check if user has a saved toggle
   const lastTogglePin = localStorage.getItem('lastTogglePin');
   if (lastTogglePin) {
     joinToggleByPin(lastTogglePin);
   }
 });
+
 
 // Create Toggle
 function createToggle() {
@@ -156,6 +158,7 @@ function joinToggleByPin(pin) {
     }
   });
 }
+
 
 // Display Toggle Screen
 function displayToggleScreen() {
