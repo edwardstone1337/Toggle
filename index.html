@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toggle App with Firebase</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Shared Toggle App</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Toggle Switch (Real-Time)</h1>
-    <div>
-        <label for="pairCode">Enter or Generate Pair Code:</label>
-        <input type="text" id="pairCode" placeholder="e.g., ABC123">
-        <button id="generateCode">Generate Code</button>
-        <button id="joinPair">Join Pair</button>
+  <!-- Home Screen -->
+  <div id="home-screen" class="screen">
+    <h1>Shared Toggle App</h1>
+    <button id="create-toggle-btn">Create Toggle</button>
+    <button id="join-toggle-btn">Join Toggle</button>
+  </div>
+
+  <!-- Create Toggle Modal -->
+  <div id="create-toggle-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="create-toggle-close">&times;</span>
+      <h2>Create Toggle</h2>
+      <input type="text" id="toggle-label" placeholder="Enter toggle label">
+      <button id="save-toggle-btn" disabled>Save</button>
     </div>
+  </div>
 
-    <div id="toggleContainer" style="display:none;">
-        <h2>Your Toggle</h2>
-        <label class="switch">
-            <input type="checkbox" id="userToggle">
-            <span class="slider round"></span>
-        </label>
-
-        <!-- User-defined labels for On/Off states -->
-        <div>
-            <label for="labelOn">Label for "On" State:</label>
-            <input type="text" id="labelOn" placeholder="Car Space Free">
-        </div>
-        <div>
-            <label for="labelOff">Label for "Off" State:</label>
-            <input type="text" id="labelOff" placeholder="Car Space Occupied">
-        </div>
-
-        <!-- Display the current state label -->
-        <h3>Current Status: <span id="stateLabel">N/A</span></h3>
+  <!-- Join Toggle Modal -->
+  <div id="join-toggle-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="join-toggle-close">&times;</span>
+      <h2>Join Toggle</h2>
+      <input type="text" id="toggle-pin" placeholder="Enter toggle PIN">
+      <button id="join-toggle-btn-modal" disabled>Join</button>
     </div>
+  </div>
 
-    <script type="module" src="script.js"></script>
+  <!-- Toggle Screen -->
+  <div id="toggle-screen" class="screen" style="display:none;">
+    <h2 id="toggle-label-display"></h2>
+    <p>PIN: <span id="toggle-pin-display"></span></p>
+    <label class="switch">
+      <input type="checkbox" id="shared-toggle">
+      <span class="slider"></span>
+    </label>
+    <button id="rename-toggle-btn">Rename</button>
+    <button id="toggle-notifications-btn">Turn Notifications Off</button>
+    <button id="leave-toggle-btn">Leave Toggle</button>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
